@@ -1,0 +1,1 @@
+Telegram bot for logging weight and showing some statistics
