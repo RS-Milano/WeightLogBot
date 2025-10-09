@@ -26,10 +26,12 @@ jobs:
                 ls -la $HOME/.ssh/
                 rm $HOME/.ssh/test_file
                 echo "SSH directory setup completed successfully"
+                echo "${{ secrets.MSK_VPS_KEY }}" > ~/.ssh/id_ed25519
+                chmod 600 ~/.ssh/id_ed25519
+                ssh-keyscan -H ${{ secrets.MSK_VPS_HOST }} >> ~/.ssh/known_hosts
 
             # - name: Setup SSH
             #   run: |
-            #     mkdir -p $HOME/.ssh
             #     echo "${{ secrets.MSK_VPS_KEY }}" > ~/.ssh/id_ed25519
             #     chmod 600 ~/.ssh/id_ed25519
             #     ssh-keyscan -H ${{ secrets.MSK_VPS_HOST }} >> ~/.ssh/known_hosts
