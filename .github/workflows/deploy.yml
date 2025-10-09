@@ -15,13 +15,17 @@ jobs:
 
             - name: Debug information
               run: |
-                echo "Current directory: $(pwd)"
-                echo "Home directory: $HOME"
-                echo "User: $(whoami)"
-                echo "Directory listing:"
-                ls -la
-                echo "Home directory listing:"
-                ls -la $HOME || echo "Cannot list home directory"
+                echo "Creating .ssh directory..."
+                mkdir -p $HOME/.ssh
+                echo "Directory created, listing:"
+                ls -la $HOME/.ssh
+                echo "Setting permissions..."
+                chmod 700 $HOME/.ssh
+                echo "Testing write access..."
+                touch $HOME/.ssh/test_file
+                ls -la $HOME/.ssh/
+                rm $HOME/.ssh/test_file
+                echo "SSH directory setup completed successfully"
 
             # - name: Setup SSH
             #   run: |
