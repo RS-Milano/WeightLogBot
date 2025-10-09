@@ -13,20 +13,24 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
-            - name: Debug information
+            - name: Setup SSH
               run: |
                 mkdir -p $HOME/.ssh
                 chmod 700 $HOME/.ssh
-                echo "Testing key writing..."
-                KEY_CONTENT="${{ secrets.MSK_VPS_KEY }}"
-                echo "Key length: ${#KEY_CONTENT}"
-                echo "First 50 chars: ${KEY_CONTENT:0:50}"
-                echo "Trying to write key file..."
-                
                 echo "${{ secrets.MSK_VPS_KEY }}" > $HOME/.ssh/id_ed25519
-                echo "Write completed, exit code: $?"
-                echo "File size: $(wc -c < $HOME/.ssh/id_ed25519)"
-                ls -la $HOME/.ssh/id_ed25519
-                
                 chmod 600 $HOME/.ssh/id_ed25519
-                echo "Chmod completed, exit code: $?"
+                ssh-keyscan -H ${{ secrets.MSK_VPS_HOST }} >> $HOME/.ssh/known_hosts
+
+            - name: Deploy to VPS
+              run: |
+                ssh -i ~/.ssh/id_ed25519 \
+                    -p ${{ secrets.MSK_VPS_PORT }} \
+                    -o StrictHostKeyChecking=no \
+                    -o ConnectTimeout=30 \
+                    -o LogLevel=ERROR \
+                    ${{ secrets.MSK_VPS_USER }}@${{ secrets.MSK_VPS_HOST }} << 'EOF'
+                echo 'Connected successfully!'
+                cd /srv/weight_log_bot
+                git pull origin main
+                docker compose up --build -d
+                EOF
