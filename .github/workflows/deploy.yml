@@ -10,7 +10,13 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - run: ping 217.149.31.164
+            - run: |
+                if ping -c 3 -W 5 217.149.31.164; then
+                    echo "✅ Server is reachable"
+                else
+                    echo "❌ Server is NOT reachable from GitHub Actions"
+                    exit 1
+                fi
             # - name: Checkout code
             #   uses: actions/checkout@v4
 
