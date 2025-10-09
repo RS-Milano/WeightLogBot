@@ -1,6 +1,0 @@
-name: Deploy to MSK_VPS
-
-on:
-    push:
-        branches:
-            - main
