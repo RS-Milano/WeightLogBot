@@ -9,21 +9,21 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
 
-    steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-        - name: Setup SSH
-          run: |
-            mkdir -p ~/.ssh
-            echo "${{ secrets.MSK_VPS_KEY }}" > ~/.ssh/id_ed25519
-            chmod 600 ~/.ssh/id_ed25519
-            ssh-keyscan -H ${{ secrets.MSK_VPS_HOST }} >> ~/.ssh/known_hosts
+            - name: Setup SSH
+              run: |
+                mkdir -p ~/.ssh
+                echo "${{ secrets.MSK_VPS_KEY }}" > ~/.ssh/id_ed25519
+                chmod 600 ~/.ssh/id_ed25519
+                ssh-keyscan -H ${{ secrets.MSK_VPS_HOST }} >> ~/.ssh/known_hosts
 
-        - name: Deploy to VPS
-          run: |
-            ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.MSK_VPS_PORT }} ${{ secrets.MSK_VPS_USER }}@${{ secrets.MSK_VPS_HOST }} << 'EOF'
-            cd /srv/weight_log_bot
-            git pull origin main
-            docker compose up --build -d
-            EOF
+            - name: Deploy to VPS
+              run: |
+                ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.MSK_VPS_PORT }} ${{ secrets.MSK_VPS_USER }}@${{ secrets.MSK_VPS_HOST }} << 'EOF'
+                cd /srv/weight_log_bot
+                git pull origin main
+                docker compose up --build -d
+                EOF
