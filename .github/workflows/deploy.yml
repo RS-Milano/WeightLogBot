@@ -13,5 +13,12 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
-            - run: mkdir $HOME/.ssh
-            - run: ls -la $HOME/
+            - name: Setup SSH
+              run: |
+                mkdir $HOME/.ssh
+                ls -la $HOME/
+                chmod 700 $HOME/.ssh
+                echo "${{ secrets.MSK_VPS_KEY }}" > $HOME/.ssh/id_ed25519
+                chmod 600 $HOME/.ssh/id_ed25519
+                ssh-keyscan -H ${{ secrets.MSK_VPS_HOST }} >> $HOME/.ssh/known_hosts
+                echo "success"
