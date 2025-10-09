@@ -11,7 +11,7 @@ jobs:
 
         steps:
             - run: |
-                if ping -c 3 -W 5 217.149.31.164; then
+                if ping -c 3 -W 5 91.237.144.215; then
                     echo "✅ Server is reachable"
                 else
                     echo "❌ Server is NOT reachable from GitHub Actions"
