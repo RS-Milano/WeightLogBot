@@ -13,6 +13,5 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
-            - name: Setup SSH
-              run: mkdir $HOME/.ssh
-              run: ls -la $HOME/
+            - run: mkdir $HOME/.ssh
+            - run: ls -la $HOME/
