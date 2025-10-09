@@ -23,3 +23,8 @@ jobs:
             - run: echo "4"
             - run: ssh-keyscan -H ${{ secrets.MSK_VPS_HOST }} >> $HOME/.ssh/known_hosts
             - run: echo "5"
+            - run: echo "Testing host connectivity..."
+            - run: ping -c 2 ${{ secrets.MSK_VPS_HOST }} || echo "Ping failed but continuing"
+            - run: echo "Trying ssh-keyscan..."
+            - run: ssh-keyscan -H -v ${{ secrets.MSK_VPS_HOST }} || echo "ssh-keyscan failed"
+            - run: ssh-keyscan ${{ secrets.MSK_VPS_HOST }} >> $HOME/.ssh/known_hosts || echo "Failed, but continuing"
