@@ -10,19 +10,28 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+            - run: ping 217.149.31.164
+            # - name: Checkout code
+            #   uses: actions/checkout@v4
 
-            - run: mkdir $HOME/.ssh
-            - run: echo "1"
-            - run: chmod 700 $HOME/.ssh
-            - run: echo "2"
-            - run: echo "${{ secrets.MSK_VPS_KEY }}" > $HOME/.ssh/id_ed25519
-            - run: echo "3"
-            - run: chmod 600 $HOME/.ssh/id_ed25519
-            - run: echo "4"
-            - run: echo "Testing host connectivity..."
-            - run: ping -c 2 ${{ secrets.MSK_VPS_HOST }} || echo "Ping failed but continuing"
-            - run: echo "Trying ssh-keyscan..."
-            - run: ssh-keyscan -H -v ${{ secrets.MSK_VPS_HOST }} || echo "ssh-keyscan failed"
-            - run: ssh-keyscan ${{ secrets.MSK_VPS_HOST }} >> $HOME/.ssh/known_hosts || echo "Failed, but continuing"
+            # - run: mkdir $HOME/.ssh
+            # - run: echo "1"
+            # - run: chmod 700 $HOME/.ssh
+            # - run: echo "2"
+            # - run: echo "${{ secrets.MSK_VPS_KEY }}" > $HOME/.ssh/id_ed25519
+            # - run: echo "3"
+            # - run: chmod 600 $HOME/.ssh/id_ed25519
+            # - run: echo "4"
+            # - run: echo "Testing host connectivity..."
+            # - run: ping -c 2 ${{ secrets.MSK_VPS_HOST }} || echo "Ping failed but continuing"
+            # - run: echo "Trying ssh-keyscan..."
+            # - run: ssh-keyscan -H -v ${{ secrets.MSK_VPS_HOST }} || echo "ssh-keyscan failed"
+            # - run: ssh-keyscan ${{ secrets.MSK_VPS_HOST }} >> $HOME/.ssh/known_hosts || echo "Failed, but continuing"
+
+            # - name: Deploy
+            #   run: |
+            #     ssh -i $HOME/.ssh/id_ed25519 \
+            #         -p ${{ secrets.MSK_VPS_PORT }} \
+            #         -o StrictHostKeyChecking=no \
+            #         -o UserKnownHostsFile=/dev/null \
+            #         ${{ secrets.MSK_VPS_USER }}@${{ secrets.MSK_VPS_HOST }} "echo 'Connected!'"
